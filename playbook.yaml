@@ -1,0 +1,31 @@
+- hosts: all
+  name: Deployment of Project
+
+  tasks:
+    - name: Copy dockerfile to remote hosts
+      copy: src=Dockerfile dest=.
+
+    - name: Copy war file to remote hosts
+      copy: src=WebApplication.war dest=.
+
+    - name: Stoppig the container
+      command: docker stop mkacont
+      ignore_errors: True
+
+    - name: Stoppig the container
+      command: docker stop mkacont
+      ignore_errors: True
+
+    - name: Removing the container
+      command: docker rm mkacont
+      ignore_errors: True
+
+    - name: Removing Existing Image
+      command: docker rmi mka
+      ignore_errors: True
+
+    - name: Creating the image from Docker file
+      command: docker build -t mka .
+
+    - name: Created and Run container
+      command: docker run -d -p 8080:8080 --name mkacont mka
